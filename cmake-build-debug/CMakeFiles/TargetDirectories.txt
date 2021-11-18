@@ -1,0 +1,3 @@
+/home/pablo/CLionProjects/compressito/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/pablo/CLionProjects/compressito/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/pablo/CLionProjects/compressito/cmake-build-debug/CMakeFiles/compressito.dir

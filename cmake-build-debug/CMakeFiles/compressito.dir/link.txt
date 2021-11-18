@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/compressito.dir/main.c.o -o compressito 
