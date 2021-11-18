@@ -8,7 +8,6 @@ char askForFileLocation() {
     printf("\nInidiquez le chemin du fichier: ");
     char fileLocation[15];
     scanf("%s", &fileLocation);
-    printf("Test, selection: %c", fileLocation);
     return fileLocation;
 }
 
@@ -21,7 +20,17 @@ int askForSelection() {
 
 void handleSelection(int selection) {
     if (selection == 1 || selection == 2) {
-        char fileLocation = askForFileLocation();
+        char* fileLocation = askForFileLocation();
+        // FIXME -> Erreur de variable ?
+        printf("TTT %s", fileLocation);
+        switch (selection) {
+            case 1:
+                // Do compression
+                break;
+            case 2:
+                // Do decompression
+                break;
+        }
     } else {
         printf("Ce choix est invalide, veuillez réessayer !\n");
         int newSelection = askForSelection();
