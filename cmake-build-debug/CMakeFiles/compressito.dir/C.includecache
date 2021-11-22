@@ -9,6 +9,14 @@
 /home/pablo/CLionProjects/compressito/main.c
 stdio.h
 -
+unistd.h
+-
 stdlib.h
+-
+string.h
+-
+fcntl.h
+-
+assert.h
 -
 
