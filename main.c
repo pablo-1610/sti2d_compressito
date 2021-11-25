@@ -5,8 +5,7 @@
 #include <fcntl.h>
 #include <assert.h>
 
-int size = 0;
-int replaces[];
+char * compression[] = {};
 
 int askForSelection() {
     int selection;
@@ -37,6 +36,22 @@ int endwiths(const char *str, const char *suffix) {
     return strncmp(str + lenstr - lensuffix, suffix, lensuffix) == 0;
 }
 
+char * str_replace_first(char * buffer, char * s, char * by)
+{
+    char * p = strstr(buffer, s), * ret = NULL;
+    if (p != NULL)
+    {
+        size_t len_p = strlen(p), len_s = strlen(s), len_by = strlen(by);
+        if (len_s != len_by)
+        {
+            memmove(p + len_by, p + len_s, len_p);
+        }
+        strncpy(p, by, len_by);
+        ret = buffer;
+    }
+    return ret;
+}
+
 /*
  * --------------------------
  * Système de compression
@@ -45,6 +60,8 @@ int endwiths(const char *str, const char *suffix) {
 
 const int genericSize = 50;
 
+int retrieveCompressionId(char * toFound)
+
 void doCompress(char location[50]) {
     char * compression[] = {};
     FILE * fp;
@@ -52,46 +69,22 @@ void doCompress(char location[50]) {
     size_t len = 0;
     ssize_t read;
     int iteration = 0;
-
     fp = fopen(location, "r");
-    if (fp == NULL)
+    if (fp == NULL) {
         exit(EXIT_FAILURE);
+    }
 
+    // Lecture du fichier, pour chaque ligne...
     while ((read = getline(&line, &len, fp)) != -1) {
-        printf("Retrieved line of length %zu:\n", read);
-        //printf("%s", line);
+        printf("\nNouvelle ligne de longueur: %zu", read);
         char * str = line;
-        int init_size = strlen(str);
         char delim[] = " ";
         char *ptr = strtok(str, delim);
         while(ptr != NULL)
         {
-            printf("%s\n", ptr);
             char * current = ptr;
-
-            int i = 0;
-            int found = 0;
-            for (i = 1; i < 1500; i++) {
-                char * currentString = compression[i];
-                if (currentString == NULL) {
-                    continue;
-                }
-                if (currentString == current) {
-                    printf("Current String: %s", currentString);
- !;
-                    found = 1;
-                    break;
-                }
-            }
-
-            // If found
-            if (found) {
-                printf("Found\n");
-            } else {
-                printf("NOT Found\n");
-                compression[iteration] = current;
-                iteration = (iteration+1);
-            }
+            str_replace_first(current, "\n", "");
+            printf("\n[%s]", current);
 
             ptr = strtok(NULL, delim);
         }
