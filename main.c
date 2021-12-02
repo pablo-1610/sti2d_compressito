@@ -5,7 +5,16 @@
 #include <fcntl.h>
 #include <assert.h>
 
-char * compression[] = {};
+// Chaque entrée comprendra une liste de char (mots)
+/*
+ * Exemple :
+ * compression {
+ *      {"S", "a", "l", "u", "t"},
+ *      {"P", "o", "u", "r", "q", "o", "u", "i", "?"},
+ * }
+ */
+int compressed = 0;
+char compression[] = {};
 
 int askForSelection() {
     int selection;
@@ -60,7 +69,14 @@ char * str_replace_first(char * buffer, char * s, char * by)
 
 const int genericSize = 50;
 
-int retrieveCompressionId(char * toFound)
+int retrieveCompressionId(char * toFound) {
+    for (int i = 0; i < sizeof(compression) / sizeof(compression[0]); ++i) {
+        if (strcmp(toFound, compression[i])) {
+            return (i);
+        }
+    }
+    return -1;
+}
 
 void doCompress(char location[50]) {
     char * compression[] = {};
@@ -85,8 +101,15 @@ void doCompress(char location[50]) {
             char * current = ptr;
             str_replace_first(current, "\n", "");
             printf("\n[%s]", current);
-
-            ptr = strtok(NULL, delim);
+            if (retrieveCompressionId(current) != -1) {
+                // Existe déjà dans la table de compression
+            } else {
+                // N'existe pas dans la table de compression
+                compressed++;
+                compression[compressed][50] = current;
+                printf("\n-> Need compression");
+            }
+            ptr = strtok(NULL, delim); //Test
         }
     }
 
