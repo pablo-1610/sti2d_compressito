@@ -14,7 +14,7 @@
  * }
  */
 int compressed = 0;
-char compression[] = {};
+char compression[][256] = {};
 
 int askForSelection() {
     int selection;
@@ -69,8 +69,13 @@ char * str_replace_first(char * buffer, char * s, char * by)
 
 const int genericSize = 50;
 
+void printOne() {
+    printf("\n\nTest is %s", compression[5]);
+}
+
 int retrieveCompressionId(char * toFound) {
     for (int i = 0; i < sizeof(compression) / sizeof(compression[0]); ++i) {
+        printf("Insert in %i", i);
         if (strcmp(toFound, compression[i])) {
             return (i);
         }
@@ -79,7 +84,6 @@ int retrieveCompressionId(char * toFound) {
 }
 
 void doCompress(char location[50]) {
-    char * compression[] = {};
     FILE * fp;
     char * line = NULL;
     size_t len = 0;
@@ -105,16 +109,22 @@ void doCompress(char location[50]) {
                 // Existe déjà dans la table de compression
             } else {
                 // N'existe pas dans la table de compression
-                compressed++;
-                compression[compressed][50] = current;
+                printf("\nCompression is %i", compressed);
+                compression[compressed] = *current;
+                printf("\n%s", compression[compressed]);
+                compressed = (compressed+1);
+                if (compressed == 6) {
+                    printOne();
+                }
                 printf("\n-> Need compression");
             }
             ptr = strtok(NULL, delim); //Test
         }
     }
-
     fclose(fp);
-    if (line) free(line);
+    if (line)
+        free(line);
+    exit(EXIT_SUCCESS);
 }
 
 void handleSelection(int selection) {
